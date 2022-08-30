@@ -16,7 +16,10 @@
 package com.example.cupcake
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 
@@ -33,6 +36,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main){
         val navController = navHostFragment.navController
 
         setupActionBarWithNavController(navController) // transmitindo a instância de navcontroller
-
     }
+//
+//    private fun NavController.printBackStack() {
+//        Log.d("BackStack", "BackStackEntryCount = ${backStack.size}")
+//        val breadcrumb = backStack
+//            .map {
+//                it.destination
+//            }
+//            .filterNot {
+//                it is NavGraph
+//            }
+//            .joinToString(" > ") {
+//                it.displayName.split('/')[1]
+//            }
+//        Log.d("BackStack", breadcrumb)
+//    }
+
+
 }
