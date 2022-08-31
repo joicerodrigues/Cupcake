@@ -29,13 +29,14 @@ import com.example.cupcake.model.OrderViewModel
  * This is the first screen of the Cupcake app. The user can choose how many cupcakes to order.
  */
 class StartFragment : Fragment() {
-    // acessando modelo de visualização compartilhada como uma variável de classe
-    private val sharedViewModel: OrderViewModel by activityViewModels()
 
     // Binding object instance corresponding to the fragment_start.xml layout
     // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
     // when the view hierarchy is attached to the fragment.
     private var binding: FragmentStartBinding? = null
+
+    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
+    private val sharedViewModel: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,15 +56,15 @@ class StartFragment : Fragment() {
      * Start an order with the desired quantity of cupcakes and navigate to the next screen.
      */
     fun orderCupcake(quantity: Int) {
-        //atualizando a quantidade antes de navegar para o flavor fragment
+        // Update the view model with the quantity
         sharedViewModel.setQuantity(quantity)
 
-        //definindo sabor padrão como vanilha caso nenhum sabor seja definido
+        // If no flavor is set in the view model yet, select vanilla as default flavor
         if (sharedViewModel.hasNoFlavorSet()) {
             sharedViewModel.setFlavor(getString(R.string.vanilla))
         }
 
-        // navigate transmitindo o id da ação
+        // Navigate to the next destination to select the flavor of the cupcakes
         findNavController().navigate(R.id.action_startFragment_to_flavorFragment)
     }
 

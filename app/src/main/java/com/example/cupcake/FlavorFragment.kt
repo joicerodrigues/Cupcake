@@ -19,9 +19,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cupcake.databinding.FragmentFlavorBinding
 import com.example.cupcake.model.OrderViewModel
 
@@ -29,13 +29,14 @@ import com.example.cupcake.model.OrderViewModel
  * [FlavorFragment] allows a user to choose a cupcake flavor for the order.
  */
 class FlavorFragment : Fragment() {
-    // acessando modelo de visualização compartilhada como uma variável de classe
-    private val sharedViewModel: OrderViewModel by activityViewModels()
 
     // Binding object instance corresponding to the fragment_flavor.xml layout
     // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
     // when the view hierarchy is attached to the fragment.
     private var binding: FragmentFlavorBinding? = null
+
+    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
+    private val sharedViewModel: OrderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,13 +51,13 @@ class FlavorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.apply {
-            //especifica o fragmento como proprietário do ciclo de vida
+            // Specify the fragment as the lifecycle owner
             lifecycleOwner = viewLifecycleOwner
 
-            //acessando view model para a propriedade na binding class
+            // Assign the view model to a property in the binding class
             viewModel = sharedViewModel
 
-            // acessando fragmento
+            // Assign the fragment
             flavorFragment = this@FlavorFragment
         }
     }
@@ -65,11 +66,17 @@ class FlavorFragment : Fragment() {
      * Navigate to the next screen to choose pickup date.
      */
     fun goToNextScreen() {
-        findNavController().navigate(R.id.action_flavorFragment_to_pickupFragment) // passa para a próxima screen
+        findNavController().navigate(R.id.action_flavorFragment_to_pickupFragment)
     }
 
+    /**
+     * Cancel the order and start over.
+     */
     fun cancelOrder() {
+        // Reset order in view model
         sharedViewModel.resetOrder()
+
+        // Navigate back to the [StartFragment] to start over
         findNavController().navigate(R.id.action_flavorFragment_to_startFragment)
     }
 
